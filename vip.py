@@ -8,7 +8,7 @@ from haystack_integrations.components.generators.ollama import OllamaGenerator
 import re
 
 document = []
-with open("info.txt", "r") as file:
+with open("output.txt", "r") as file:
     for line in file:
         document.append(Document(content=line.strip()))
 
@@ -32,18 +32,31 @@ document_store.write_documents(document)
 
 
 
+# template = """
+# Given only the following information, create a similar quiz based on the content.
+# Ensure the question is clear and directly relevant to the provided context.
+# Ignore your own knowledge.
+
+# Context:
+# {% for document in documents %}
+#     {{ document.content }}
+# {% endfor %}
+
+# Question: {{ query }}
+# """
+
 template = """
-Given only the following information, create a similar quiz based on the content.
-Ensure the question is clear and directly relevant to the provided context.
-Ignore your own knowledge.
+Based on the provided document, generate a fill-in-the-blank question.
+Make sure the blank is a key term or concept from the content.
 
 Context:
 {% for document in documents %}
     {{ document.content }}
 {% endfor %}
 
-Question: {{ query }}
+Question: {{query}}
 """
+
 
 pipe = Pipeline()
 
@@ -52,7 +65,8 @@ pipe.add_component("prompt_builder", PromptBuilder(template=template))
 pipe.add_component("llm", OllamaGenerator(model="llama3.1", url="http://localhost:11434"))
 pipe.connect("retriever", "prompt_builder.documents")
 pipe.connect("prompt_builder", "llm")
-query = "create a similar questions in question 1"
+# query = "create a multiple choice question"
+query = "what is deep learning?"
 
 response = pipe.run({"prompt_builder": {"query": query}, "retriever": {"query": query}})
 output = response["llm"]["replies"]

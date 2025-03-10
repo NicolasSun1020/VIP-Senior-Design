@@ -19,3 +19,14 @@ summarizer = pipeline("summarization", model=pegasus_model, tokenizer=pegasus_to
 summary = summarizer(example_text, min_length=30, max_length=150)
 
 print(summary[0]["summary_text"])
+
+
+output_file = "output.txt"
+
+output_data = summary[0]["summary_text"]
+
+
+with open(output_file, "w") as file:
+    file.write(output_data)
+
+print(f"data is already in {output_file}")
