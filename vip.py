@@ -43,7 +43,7 @@ Question: {{ query }}
 # Set up the pipeline
 pipe = Pipeline()
 pipe.add_component("prompt_builder", PromptBuilder(template=template))
-pipe.add_component("llm", OpenAIGenerator(api_key=Secret.from_token("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"), model="gpt-4o-mini"))
+pipe.add_component("llm", OpenAIGenerator(api_key=Secret.from_token(""), model="gpt-4o-mini"))
 pipe.connect("prompt_builder", "llm")
 
 query = "Create questions based on the bullet point below."
