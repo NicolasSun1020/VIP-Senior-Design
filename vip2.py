@@ -34,10 +34,22 @@ Context:
 Question:
 {{ query }}
 
-Evaluate the question using the following criteria (score from 1 to 5 each):
+Evaluate the question using the following criteria (score from 1 to 10 each):
 1. Relevance – Is it clearly derived from the the refrence context?
 2. Clarity – Is the question phrased in a clear and unambiguous way?
-3. Cognitive Depth – Does it go beyond simple recall?
+3. Cognitive Depth – Does it go beyond simple recall? 
+An example of a 10 point question should look like: 
+D-ephedrin can be reduced into METH by removing the __________ group.
+A. beta-hydroxyl
+B. alpha-methyl
+C. NHCH3
+D. all of the above
+An example of a 1 point question should look like:
+Benzodiazepine administration typically increases total sleep time, largely because of increased time spent in ________.
+A. Stage 1
+B. Stage 2
+C. Stage 3
+D. Stage 4
 4. Distractor Quality – Are the incorrect options plausible?
 5. Answer Key Validity – Is the answer clearly correct based on the context?
 
@@ -64,7 +76,6 @@ pipe.connect("prompt_builder", "llm")
 def evaluate_questions(question_docs, reference_doc):
     with open("evaluated_questions.txt", "w", encoding="utf-8") as txt_file:
         for idx, question_doc in enumerate(question_docs):
-            print(f"\nEvaluating Question {idx + 1}...\n{'='*40}")
             try:
                 res = pipe.run({
                     "prompt_builder": {
