@@ -43,7 +43,7 @@ sentences = re.split(r'(?<=[.!?]) +', combined_summary)
 bullet_points = "\n".join(f"- {s.strip()}" for s in sentences if len(s.strip()) > 0)
 
 # Print summary
-print("🔍 Key Points Summary (Bullet Points):\n")
+print("Key Points Summary:\n")
 print(bullet_points)
 
 # Save to file
