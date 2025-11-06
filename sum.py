@@ -50,4 +50,4 @@ print(bullet_points)
 with open("output.txt", "w", encoding="utf-8") as f:
     f.write(bullet_points)
 
-print("\n✅ Summary saved to: output.txt")
+print("\n Summary saved to: output.txt")
